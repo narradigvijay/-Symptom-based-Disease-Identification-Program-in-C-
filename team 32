@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to identify the disease based on symptoms
+void identifyDisease(char diseases[][50], char symptoms[][50], int numDiseases, char patientSymptoms[][50], int numPatientSymptoms) {
+    printf("\nDisease Prediction Results:\n");
+
+    for (int i = 0; i < numDiseases; i++) {
+        int matchCount = 0;
+
+        for (int j = 0; j < numPatientSymptoms; j++) {
+            for (int k = 0; k < 15; k++) {
+                if (strcmp(patientSymptoms[j], symptoms[i * 15 + k]) == 0) {
+                    matchCount++;
+                    break;
+                }
+            }
+        }
+
+        int percentage = (matchCount * 100) / numPatientSymptoms;
+        printf("Likelihood of %s: %d%%\n", diseases[i], percentage);
+    }
+}
+
+int main() {
+    char diseases[][50] = {"Flu", "Cold", "Allergy", "COVID-19", "Asthma", "Hay Fever", "Pneumonia", "Gastroenteritis"};
+    char symptoms[][50] = {
+        "Fever", "Cough", "Fatigue", "Headache", "Muscle pain", "Chills", "Sore throat", "Runny nose", "Nausea", "Vomiting",
+        "Diarrhea", "Body aches", "Shortness of breath", "Loss of taste or smell",
+        "Runny nose", "Sneezing", "Sore throat", "Cough", "Mild fever", "Watery eyes", "Congestion", "Headache", "Body aches",
+        "Fatigue", "Loss of appetite", "Mucus production", "Mild chest discomfort", "Itchy throat", "Slight body temperature elevation",
+        "Sneezing", "Runny nose", "Itchy eyes", "Skin rash", "Fatigue", "Coughing", "Wheezing", "Shortness of breath", "Swelling",
+        "Watery or itchy eyes", "Stuffy or runny nose", "Red or swollen eyes", "Hives", "Itchy nose or throat", "Difficulty breathing",
+        "Fever", "Cough", "Shortness of breath", "Fatigue", "Body aches", "Loss of taste or smell", "Sore throat", "Congestion or runny nose",
+        "Nausea or vomiting", "Diarrhea", "Chills", "Muscle pain", "Headache", "Difficulty breathing", "Persistent pain or pressure in the chest",
+        "Shortness of breath", "Chest tightness", "Wheezing", "Coughing", "Difficulty breathing during physical activities", "Trouble sleeping due to coughing or wheezing",
+        "Coughing or wheezing attacks worsened by a respiratory virus", "Feeling tired or weak",
+        "Sneezing", "Runny or stuffy nose", "Itchy or watery eyes", "Itchy throat or ears", "Fatigue", "Cough", "Swollen, blue-colored skin under the eyes",
+        "Decreased sense of taste or smell", "Difficulty sleeping", "Ear congestion", "Headache", "Irritability", "Shortness of breath", "Wheezing",
+        "Cough with phlegm", "Shortness of breath", "Chest pain when breathing or coughing", "Confusion", "Fever", "Sweating", "Fast heartbeat",
+        "Nausea or vomiting", "Muscle aches", "Fatigue", "Headache", "Bluish lips or face", "Loss of appetite", "Sharp or stabbing chest pain", "Difficulty swallowing",
+        "Diarrhea", "Abdominal cramps", "Nausea", "Vomiting", "Fever", "Headache", "Muscle pain", "Dehydration", "Bloody stools", "Increased heart rate",
+        "Decreased urination", "Dry mouth and throat", "Dizziness", "Lethargy", "Weight loss"
+    };
+
+    char patientSymptoms[15][50];
+    int numPatientSymptoms = 0;
+
+    printf("Answer 'yes' or 'no' for the following symptoms:\n");
+
+    for (int k = 0; k < 15; k++) {
+        printf("Do you have the symptom \"%s\"? ", symptoms[k]);
+        scanf("%s", patientSymptoms[numPatientSymptoms]);
+        numPatientSymptoms += strcmp(patientSymptoms[numPatientSymptoms], "yes") == 0;
+    }
+
+    identifyDisease(diseases, symptoms, sizeof(diseases) / sizeof(diseases[0]), patientSymptoms, numPatientSymptoms);
+
+    return 0;
+}
