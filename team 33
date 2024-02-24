@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 // Function to identify the disease based on symptoms
@@ -12,12 +13,12 @@ void identifyDisease(char diseases[][50], char symptoms[][50], int numDiseases, 
             for (int k = 0; k < 15; k++) {
                 if (strcmp(patientSymptoms[j], symptoms[i * 15 + k]) == 0) {
                     matchCount++;
-                    break;
+                    break;  // Stop checking other symptoms once a match is found
                 }
             }
         }
 
-        int percentage = (matchCount * 100) / numPatientSymptoms;
+        int percentage = (matchCount * 100) / 15; // Calculate percentage based on the total number of symptoms
         printf("Likelihood of %s: %d%%\n", diseases[i], percentage);
     }
 }
@@ -49,10 +50,20 @@ int main() {
     printf("Answer 'yes' or 'no' for the following symptoms:\n");
 
     for (int k = 0; k < 15; k++) {
+        char response[10];
         printf("Do you have the symptom \"%s\"? ", symptoms[k]);
-        scanf("%s", patientSymptoms[numPatientSymptoms]);
-        numPatientSymptoms += strcmp(patientSymptoms[numPatientSymptoms], "yes") == 0;
+        scanf("%s", response);
+        if (strcmp(response, "yes") == 0 || strcmp(response, "Yes") == 0 || strcmp(response, "YES") == 0) {
+            strcpy(patientSymptoms[numPatientSymptoms], symptoms[k]);
+            numPatientSymptoms++;
+        }
     }
+
+    identifyDisease(diseases, symptoms, sizeof(diseases) / sizeof(diseases[0]), patientSymptoms, numPatientSymptoms);
+
+    return 0;
+}
+
 
     identifyDisease(diseases, symptoms, sizeof(diseases) / sizeof(diseases[0]), patientSymptoms, numPatientSymptoms);
 
